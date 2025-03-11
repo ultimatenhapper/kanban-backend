@@ -24,9 +24,10 @@ router.post(
     [
       check("title", "Title is required").not().isEmpty(),
       check("status", "Status is required").isIn([
-        "todo",
-        "inProgress",
-        "done",
+        "backlog",
+        "progress",
+        "complete",
+        "onHold",
       ]),
     ],
   ],

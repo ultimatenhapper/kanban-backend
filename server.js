@@ -1,10 +1,14 @@
-const express = require("express");
-const cors = require("cors");
 const dotenv = require("dotenv");
-const connectDB = require("./config/db");
+const express = require("express");
 
 // Load environment variables
 dotenv.config();
+
+const applySecurityMiddleware = require("./security");
+const auth = require("./middleware/auth");
+const connectDB = require("./config/db");
+const taskController = require("./controllers/taskController");
+const User = require("./models/User");
 
 // Initialize express
 const app = express();
@@ -13,8 +17,9 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+
+const logger = applySecurityMiddleware(app);
 
 // Define routes
 app.use("/api/auth", require("./routes/auth"));

@@ -7,7 +7,7 @@ const Task = require("../models/Task");
 exports.getTasks = async (req, res) => {
   try {
     const tasks = await Task.find({ user: req.user.id }).sort({
-      updatedAt: -1,
+      date: -1,
     });
     res.json(tasks);
   } catch (err) {
@@ -52,16 +52,13 @@ exports.createTask = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { title, description, status, priority, dueDate } = req.body;
+  const { title, status } = req.body;
 
   try {
     // Create new task
     const newTask = new Task({
       title,
-      description,
       status,
-      priority,
-      dueDate,
       user: req.user.id,
     });
 
@@ -97,17 +94,15 @@ exports.updateTask = async (req, res) => {
     }
 
     // Update fields
-    const { title, description, status, priority, dueDate } = req.body;
+    const { title, status } = req.body;
 
     // Only update fields that are sent
     if (title) task.title = title;
-    if (description !== undefined) task.description = description;
     if (status) task.status = status;
-    if (priority) task.priority = priority;
-    if (dueDate) task.dueDate = dueDate;
+    // if (date) task.date = date;
 
     // Update timestamp
-    task.updatedAt = Date.now();
+    task.date = Date.now();
 
     // Save updated task
     await task.save();

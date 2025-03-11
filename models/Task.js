@@ -10,30 +10,15 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-  },
   status: {
     type: String,
     required: true,
-    enum: ["todo", "inProgress", "done"],
-    default: "todo",
+    enum: ["backlog", "progress", "complete", "onHold"],
+    default: "backlog",
   },
-  priority: {
-    type: String,
-    enum: ["low", "medium", "high"],
-    default: "medium",
-  },
-  dueDate: {
+  date: {
     type: Date,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
 });
 
